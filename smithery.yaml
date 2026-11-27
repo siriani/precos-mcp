@@ -1,0 +1,15 @@
+# Smithery: configuracao do servidor remoto https://mcp-precos.lapps.studio/mcp.
+# Gerado por scripts/vitrine/build_public.py. Nao editar a mao: edite o modelo ou mcp_server/brand.json.
+# Esquema de configuracao de memoria; conferir no smithery.ai antes de publicar.
+name: "Precos API"
+description: "Prices of Brazilian supermarkets, collected weekly from retailer websites."
+url: "https://mcp-precos.lapps.studio/mcp"
+configSchema:
+  type: object
+  required:
+    - apiKey
+  properties:
+    apiKey:
+      type: string
+      title: "API key"
+      description: "API key sent as Authorization: Bearer <key>. Get one from https://precos.lapps.studio."

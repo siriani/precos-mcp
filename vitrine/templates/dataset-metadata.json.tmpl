@@ -1,0 +1,21 @@
+{
+  "title": "Brazilian Grocery Advertised Prices (sample)",
+  "id": "{{slug}}/brazilian-grocery-prices-sample",
+  "subtitle": "Online grocery prices from Brazilian supermarkets, sample",
+  "description": "Sample of online grocery prices collected weekly from Brazilian supermarket chains.\n\nFiles: prices (product_id, store_id, price in BRL, price_regular, is_promotion, unit_price, currency, captured_at in UTC, source_url), products (product_id, gtin, name, brand, category, size, unit) and stores (store_id, chain, unit, city, state, country), as CSV and Parquet.\n\nCut: the state of São Paulo, a three-month rolling window, only products with a verified GTIN, no replicated prices, no images and no descriptions from retailers. Price history starts in March 2026.\n\nThese are advertised online prices, not shelf prices: they can differ from the physical store and from the price at checkout. Products are matched by GTIN.\n\nLicense: {{data_license}}. Please credit {{name}} ({{site_url}}). The full history, all states, the REST API and the MCP server are at {{site_url}}.",
+  "licenses": [
+    {
+      "name": "{{data_license_spdx}}"
+    }
+  ],
+  "keywords": [
+    "prices",
+    "grocery",
+    "retail",
+    "brazil",
+    "supermarket",
+    "time series",
+    "tabular",
+    "economics"
+  ]
+}

@@ -1,0 +1,133 @@
+# {{title}} — Apify Actor
+
+{{tagline}}
+
+Grocery prices from Brazilian supermarket websites, collected weekly.
+
+This Actor is a thin pass-through. It calls the {{name}} REST API at {{api_base_url}} and stores
+the API answer in the run's dataset. Nothing is scraped inside the Actor, so runs are short and
+cheap. You do not need an API key: the Actor holds its own.
+
+Coverage: {{facts.stores}} store units in {{facts.states}} states of Brazil, as of {{facts.as_of}}.
+Prices are advertised online prices in BRL and are weekly observations, not a live feed.
+
+## Input
+
+- `tool` (required): one of the 11 API tools.
+- `params` (object): arguments for the chosen tool, named as in the API. For a `POST` tool such as
+  `compare_basket`, the request body goes here.
+
+```json
+{
+  "tool": "search_products",
+  "params": {"query": "milk", "city": "Sao Paulo", "state": "SP"}
+}
+```
+
+## Example — lookup event
+
+Input:
+
+```json
+{
+  "tool": "search_products",
+  "params": {"query": "white rice 5kg", "city": "Sao Paulo", "state": "SP"}
+}
+```
+
+The Actor calls `GET /api/v1/products/search?query=white+rice+5kg&city=Sao+Paulo&state=SP` and
+stores the answer in the dataset, shortened here:
+
+```json
+{
+  "as_of": "2026-11-19T02:30:00Z",
+  "country": "BR",
+  "currency": "BRL",
+  "attribution": "Retail prices observed on retailer websites by {{name}} ({{site_url}}).",
+  "truncated": false,
+  "products": [
+    {
+      "product_id": 1024,
+      "ean": "7891000100103",
+      "ean_verified": true,
+      "name": "White rice type 1 5kg",
+      "brand": "Example Brand",
+      "size": "5kg",
+      "category": "Grains",
+      "url": "{{site_url}}/produto/white-rice-5kg",
+      "min_price": 24.9,
+      "max_price": 31.5,
+      "store_count": 4,
+      "last_seen": "2026-11-18T23:30:00-03:00"
+    }
+  ],
+  "next_cursor": null
+}
+```
+
+Billed: one `lookup` event, US$ 0.003.
+
+## Example — analytics event
+
+Input:
+
+```json
+{
+  "tool": "compare_basket",
+  "params": {
+    "city": "Sao Paulo",
+    "items": [{"query": "white rice 5kg"}, {"ean": "7891000100103"}]
+  }
+}
+```
+
+The Actor calls `POST /api/v1/baskets/compare` with the body above and stores the answer,
+shortened here:
+
+```json
+{
+  "as_of": "2026-11-19T02:30:00Z",
+  "country": "BR",
+  "currency": "BRL",
+  "attribution": "Retail prices observed on retailer websites by {{name}} ({{site_url}}).",
+  "truncated": false,
+  "stores": [
+    {
+      "store": {"store_id": 17, "chain": "Example Chain", "unit": "Sao Paulo"},
+      "total": 182.4,
+      "items_found": 2,
+      "items_missing": []
+    }
+  ],
+  "matched_products": [],
+  "best_store": {
+    "store": {"store_id": 17, "chain": "Example Chain", "unit": "Sao Paulo"},
+    "total": 182.4,
+    "complete": true
+  },
+  "best_split": null
+}
+```
+
+Billed: one `analytics` event, US$ 0.015.
+
+## Pricing
+
+- `lookup` — US$ 0.003 per successful call: `search_products`, `get_product`, `get_prices`,
+  `list_baskets`, `list_locations`, `list_stores`, `list_categories`.
+- `analytics` — US$ 0.015 per successful call: `compare_basket`, `get_price_history`,
+  `get_basket`, `get_price_index`.
+
+One run makes one API call and is billed at most one event.
+
+## Limits and behaviour
+
+- A call is charged only after a 2xx answer from the API. Errors such as 404, 429 or 5xx are
+  written to the dataset as the API sent them and are not charged.
+- The API has a 15-second timeout per call; a slow call fails and is not charged.
+- The API applies its own rate limits. A limited call (429) is not charged.
+- The history starts in March 2026, so year-over-year comparisons are not possible yet.
+- Products without a verified barcode are matched by name and flagged (`ean_verified: false`).
+  No photos or retailer descriptions are returned.
+- Data is provided as is. These are advertised online prices, not the price on the physical
+  shelf. Attribute the source when republishing it: {{name}} ({{site_url}}).

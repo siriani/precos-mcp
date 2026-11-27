@@ -1,0 +1,60 @@
+<!-- DRAFT — not legal advice. Review by counsel before publication. -->
+
+# {{name}} API — Terms of Use
+
+**DRAFT — not legal advice.** Company details in brackets are placeholders.
+
+_Last updated: [DATE]_
+
+## 1. Who we are
+Operated by [LEGAL ENTITY NAME], [REGISTERED ADDRESS], registration [REGISTRATION NUMBER].
+Contact: {{contact_url}}.
+
+## 2. The Service
+Grocery price observations collected from retailer websites, with store, currency and
+capture time on each answer. Coverage and freshness are documented at {{docs_url}} and may
+change. Prices are **advertised prices on the retailer's website**, not in-store shelf
+prices, and may differ from what a store charges at checkout. We are not affiliated with,
+endorsed by or acting for any retailer.
+
+## 3. Data "as is"
+The data is provided "as is" and "as available", without warranties of any kind, express or
+implied, including accuracy, completeness or fitness for a purpose. Observations are
+periodic, not continuous, and may be missing, delayed or wrong. You are responsible for any
+decision made with the data.
+
+## 4. Attribution is mandatory
+Any public display, publication or product using the data must carry, visibly and with a
+live link:
+
+> {{attribution}}
+
+Removing, obscuring or altering the attribution is a breach of these terms.
+
+## 5. Keys, plans and limits
+Send the key as `Authorization: Bearer <key>`. Keys are personal, must be kept secret and
+can be revoked at any time, effective within one minute.
+
+| Plan | Calls per minute | Calls per day (UTC) |
+|---|---|---|
+| free | 30 | 100 |
+| pro | 120 | 50,000 |
+
+Limits are per key and shared between the REST API and the MCP server; exceeding one
+returns HTTP 429. Plans and limits may change with notice on {{site_url}}.
+
+## 6. Acceptable use
+Do not resell, sublicense or redistribute the raw data as a feed, database or competing
+API; mirror or bulk-download beyond your plan; bypass keys, limits or authentication; or
+use the Service to overload retailers or break the law.
+
+## 7. Suspension, liability, law
+We may revoke a key immediately for breach, abuse, non-payment or risk to the Service.
+Sections 3, 4 and 6 survive termination. To the extent permitted by law,
+[LEGAL ENTITY NAME] is not liable for indirect or consequential damages or lost profits,
+and total liability is limited to the amount paid in the twelve months before the claim.
+These terms are governed by the laws of [JURISDICTION], with venue in [VENUE].
+
+## 8. Changes and contact
+The current version is published at {{site_url}}; material changes are announced before
+they take effect. Questions about these terms: {{contact_url}}.

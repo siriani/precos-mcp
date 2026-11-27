@@ -1,0 +1,29 @@
+{
+  "name": "Basketgraph",
+  "slug": "precos",
+  "title": "Precos API",
+  "tagline": "Brazilian supermarket prices for AI agents, with the capture time on every price.",
+  "description_short": "Prices of Brazilian supermarkets, collected weekly from retailer websites.",
+  "site_url": "https://precos.lapps.studio",
+  "api_base_url": "https://precos.lapps.studio/api/v1",
+  "mcp_url": "https://mcp-precos.lapps.studio/mcp",
+  "demo_mcp_url": "http://localhost:5057/mcp",
+  "docs_url": "https://precos.lapps.studio/api/v1/openapi.json",
+  "repo_url": "https://github.com/siriani/precos-mcp",
+  "registry_name": "io.github.siriani/precos-mcp",
+  "contact_url": "https://precos.lapps.studio/contato",
+  "issues_url": "https://github.com/siriani/precos-mcp/issues",
+  "data_license": "CC BY 4.0",
+  "attribution": "Retail prices observed on retailer websites by Basketgraph (https://precos.lapps.studio). Methodology: precos://methodology.",
+  "facts": {
+    "stores": "293",
+    "states": "19",
+    "as_of": "2026-11-20",
+    "fresh_as_of": "2026-11-24",
+    "fresh_7d_pct": "29",
+    "fresh_30d_pct": "70",
+    "stale_30d_pct": "30"
+  },
+  "data_license_hf": "cc-by-4.0",
+  "data_license_spdx": "CC-BY-4.0"
+}

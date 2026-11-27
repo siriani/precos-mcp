@@ -1,0 +1,62 @@
+# {{name}}
+
+> {{name}} ({{site_url}}) collects supermarket prices from retailer websites and publishes them for AI agents and researchers. Coverage is {{facts.states}} states of Brazil, {{facts.stores}} stores. Observations are weekly, not real time.
+
+## What the data is
+
+- Prices are **advertised online prices** read from retailer websites, not in-store shelf prices.
+- Every price carries `captured_at` (ISO 8601 with offset) and `age_hours`, so the age of an observation is always explicit.
+- Data covers product name, brand, package size, category, barcode (GTIN/EAN) and store identity (chain, unit, city, state, country).
+- Products and stores are linkable: product pages live at {{site_url}}/produto/{slug}.
+
+## Freshness
+
+- Collection is scheduled **weekly**; each store is visited in a rotating slot. Not every store is reached every week: on {{facts.fresh_as_of}}, {{facts.fresh_7d_pct}}% of current prices were less than 7 days old and {{facts.fresh_30d_pct}}% less than 30 days. Always read `age_hours`.
+- The time series starts in **March 2026** and is still growing, so history is short by design. Data as of {{facts.as_of}}.
+- There is no real-time feed and no intraday history. Days without data are omitted, never interpolated.
+
+## Data limits
+
+- Prices marked as replicated are excluded by default (`include_replicated=false`); replicated prices are copied from another store and are not real observations.
+- Products merged by name may be wrong; those have `ean_verified=false`. Only `ean_verified=true` products were matched by barcode.
+- No product images or descriptions are published through the API.
+- Coverage is Brazil only. Prices are in BRL.
+
+## How to access
+
+- [OpenAPI specification]({{docs_url}}): machine-readable description of the REST API.
+- MCP server: a streamable-HTTP MCP endpoint with the same eleven tools is live at {{mcp_url}} (header `Authorization: Bearer <key>`).
+- [Website]({{site_url}}): public pages for products, stores and cities.
+- Authentication: the REST API requires an API key sent as `Authorization: Bearer <key>`. Responses include `as_of`, `country`, `currency` and `attribution`.
+
+## Tools
+
+All tools are read-only. Each price they return includes `captured_at` and `age_hours`.
+
+- `search_products`: Search supermarket products by name, brand or barcode (GTIN/EAN). Call this first to get a `product_id`.
+- `get_product`: Product details by `product_id`, `ean` or `slug`, with a current price summary.
+- `get_prices`: Current price of one product in each store of a city or state, cheapest first. Answers "how much is X in Y" and "where is it cheapest".
+- `compare_basket`: Total cost of a shopping list per store in one city, the cheapest store, and the best split across two stores.
+- `get_price_history`: Price series of one product and its change over the period. Observations are at most weekly per store and often sparser; days without data are omitted, never interpolated.
+- `list_baskets`: Predefined baskets (family of three, barbecue, ...).
+- `get_basket`: Current cost of a predefined basket in a city or state, with 7- and 30-day change and item coverage.
+- `get_price_index`: Matched-model price index by category and location, with top increases and decreases and the sample size.
+- `list_locations`: Covered countries, states and cities, with store count and data freshness. Call this when unsure whether a city is covered.
+- `list_stores`: Monitored stores and how fresh each one is.
+- `list_categories`: Product categories available for filtering.
+
+MCP resources: `precos://methodology` and `precos://coverage`.
+
+## Question blueprints
+
+- "How much is X in Y?": `search_products` to get the `product_id`, then `get_prices`.
+- "Where is it cheapest?": `get_prices` for a single product, or `compare_basket` for a shopping list.
+- "How did the price of X change over 30 days?": `get_price_history`.
+- "What is the basic basket cost in city Z?": `get_basket`.
+- "Search by barcode": `search_products` with the code, or `get_product` with `ean`.
+
+## Notes
+
+- Prefer `product_id` over free-text queries once you have one; it avoids wrong matches.
+- If a city is not found, call `list_locations` instead of retrying with other spellings.
+- Attribute data to {{name}} ({{site_url}}) when republishing it. Sample datasets: {{data_license}}. API and MCP access: Terms of use at {{site_url}}/termos (no resale of the raw data).

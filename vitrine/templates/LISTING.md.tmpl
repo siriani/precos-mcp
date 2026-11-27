@@ -1,0 +1,123 @@
+# {{title}} — listing texts
+
+Ready-to-paste English text for the marketplaces. Every brand value, URL and count comes from
+`mcp_server/brand.json`: change it there and rerun `python scripts/vitrine/build_public.py`.
+Never edit the generated files in `dist/public/` by hand.
+
+## Name
+
+{{title}}
+
+## Tagline
+
+{{tagline}}
+
+## Short description
+
+Used by the official MCP registry and by Smithery (also `description_short` in `server.json`).
+Up to 100 characters.
+
+{{description_short}}
+
+## Long description
+
+{{name}} gives agents and apps one clean way to answer grocery price questions in Brazil.
+
+What you get
+
+- Prices by product, store and capture, from the online stores of regional and national
+  supermarket chains, including mid-size chains in smaller cities that other sources do not cover.
+- Products matched across chains by barcode (GTIN), so "the same item" really is the same item.
+- Ready-made answers: cheapest store for a basket, price history, and a matched-model price index
+  by city or state.
+- Every answer says where and when: country (ISO 3166), state, city, store, currency (ISO 4217),
+  unit price in kg or L, the UTC capture time and the age of the price in hours.
+
+Who it is for: shopping and budgeting assistants, cashback and benefits apps, CPG and distributor
+pricing teams, economists and data journalists.
+
+Coverage: {{facts.stores}} store units in {{facts.states}} states of Brazil, as of {{facts.as_of}}.
+
+How to connect
+
+- MCP (Streamable HTTP): {{mcp_url}}
+- REST API: {{api_base_url}}, with the OpenAPI spec at {{docs_url}}
+- Demo MCP server, no key needed: {{demo_mcp_url}}. It serves synthetic data only and marks
+  every answer as such.
+- Authentication: send the key in the header `Authorization: Bearer <key>`. The free tier needs
+  no card.
+
+## Tools
+
+search_products    Find products by name, brand or barcode.
+get_product        Product details: GTIN, brand, size, category.
+get_prices         Current prices for a product, by store, city or state.
+compare_basket     Price a list of products at each store in a city and rank the stores.
+get_price_history  Weekly price series for a product in a store or city.
+list_baskets       List the ready-made baskets (for example, a basic food basket).
+get_basket         Cost of a ready-made basket by city, with the items behind it.
+get_price_index    Matched-model price index by category, city or state.
+list_locations     States and cities covered, with store counts.
+list_stores        Stores in a location, with chain and last update time.
+list_categories    The category tree used by search and by the index.
+
+## Pricing
+
+Free plan, no card: 30 calls per minute and 100 calls per day, attribution required.
+
+Pay per call, through the Apify Actor (one event per successful call):
+
+- `lookup` — US$ 0.003: `search_products`, `get_product`, `get_prices` and the `list_*` tools.
+- `analytics` — US$ 0.015: `compare_basket`, `get_price_history`, `get_basket`,
+  `get_price_index`.
+
+Monthly plans and bulk files: {{contact_url}}.
+
+## Honest limits
+
+- These are prices advertised on each chain's online store. The physical store and the checkout
+  can charge differently.
+- Collection is scheduled weekly, but a price can be older than 7 days. Not every store is reached every week: on {{facts.fresh_as_of}}, {{facts.fresh_7d_pct}}% of current prices were less than 7 days old and {{facts.fresh_30d_pct}}% less than 30 days. Each price carries its UTC capture
+  time and its age in hours.
+- Coverage is {{facts.stores}} store units in {{facts.states}} of Brazil's 27 states, as of
+  {{facts.as_of}}. It is not a census, and some cities have one store.
+- The history starts in March 2026, so year-over-year comparisons are not possible yet.
+- Products without a verified barcode are matched by name and flagged. No photos or retailer
+  descriptions are published.
+- Data is provided as is, for information. Do not use it as the only basis for a pricing or legal
+  decision.
+
+## Channel blocks
+
+### Official MCP registry and Smithery
+
+Use only the short description above: it is the `description_short` field of `server.json`. The
+remote is Streamable HTTP at `{{mcp_url}}` with the required header `Authorization: Bearer <key>`.
+Smithery asks for a single configuration field, the API key.
+
+### Apify
+
+Use the name, tagline, long description, tools, pricing and limits above. The Actor is a thin
+pass-through to the REST API and bills two events, `lookup` (US$ 0.003) and `analytics`
+(US$ 0.015), only after a 2xx answer. The Actor README is generated from
+`vitrine/templates/APIFY_README.md.tmpl`.
+
+### Kaggle and Hugging Face
+
+Publish the sample dataset with the summary below. The full data card is `DATASET_CARD.md`,
+generated from `vitrine/templates/DATASET_CARD.md.tmpl`.
+
+TITLE
+Brazilian Grocery Advertised Prices (sample)
+
+WHAT IT CONTAINS
+Store-level advertised prices for the state of Sao Paulo, three months, in Parquet and CSV:
+prices (capture time, GTIN, store, price, regular price, promotion flag, currency, unit price,
+source URL), products (GTIN, name, brand, category, size) and stores (chain, unit, city, state,
+country). Comes with a data card: method, column dictionary, freshness and honest
+limits. No images, no retailer descriptions, no personal data.
+
+LICENSE
+{{data_license}}. Please cite the dataset and link back to {{site_url}}.
+The full history, all states and weekly updates are available through the API and the MCP server.
+No DOI is assigned yet.

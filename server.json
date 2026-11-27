@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.siriani/precos-mcp",
+  "title": "Precos API",
+  "description": "Prices of Brazilian supermarkets, collected weekly from retailer websites.",
+  "version": "0.1.0",
+  "websiteUrl": "https://precos.lapps.studio",
+  "repository": {
+    "url": "https://github.com/siriani/precos-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp-precos.lapps.studio/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "API key sent as a Bearer token. Get one from https://precos.lapps.studio.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string",
+          "value": "Bearer {api_key}",
+          "variables": {
+            "api_key": {
+              "description": "API key (prefix pk_live_).",
+              "isRequired": true,
+              "isSecret": true,
+              "format": "string"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

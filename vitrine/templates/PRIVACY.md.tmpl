@@ -1,0 +1,55 @@
+<!-- DRAFT — not legal advice. Review by counsel before publication. -->
+
+# {{name}} API — Privacy Policy
+
+**DRAFT — not legal advice.** Company details in brackets are placeholders.
+
+_Last updated: [DATE]_
+
+## 1. Who is responsible
+Operated by [LEGAL ENTITY NAME], [REGISTERED ADDRESS], registration [REGISTRATION NUMBER].
+Privacy contact: {{contact_url}}.
+
+## 2. What we collect
+- **Key hash.** The key itself is never stored: only its SHA-256 hash and a short prefix,
+  so the key can be recognized and revoked.
+- **Account owner.** The name or e-mail label you give us when the key is issued, the plan,
+  and the dates the key was created and, if applicable, revoked.
+- **Usage counts.** Calls per key, per tool and per day (UTC), and how many returned errors.
+
+## 3. What we do not collect
+- **No query content.** Search terms, products, barcodes, baskets and filters are processed
+  to answer the request and are not stored or logged.
+- **No IP addresses.** The application does not record client IPs, set cookies or track you.
+- **No results history.** The responses we send are not stored.
+
+We do not sell personal data and do not use it for advertising.
+
+## 4. Why we keep it, and for how long
+Hashes authenticate and revoke keys; owner and plan support billing, support and limits;
+counts enforce rate limits, detect abuse and measure aggregate demand. Per-minute counters
+expire in minutes, daily counters within days, and per-tool counts after about 45 days;
+authentication results are cached in memory for at most one minute. Account records are
+kept while the key is active and shortly after revocation, then deleted or anonymized,
+unless the law requires longer retention.
+
+## 5. Who else sees it
+Data is processed by our hosting and database providers and by the marketplace that sold
+you access, strictly to run the Service and on our instructions. We may disclose records
+if legally required. A current list of providers is available on request.
+
+## 6. Security
+Keys are stored only as hashes, traffic uses HTTPS, and production access is restricted.
+If you believe a key leaked, revoke it and contact us.
+
+## 7. Your rights
+You may ask to access, correct, export or delete your account record, or to revoke a key.
+Write to {{contact_url}}. You may also complain to your local data protection authority.
+
+## 8. Demo mode
+The demo at {{demo_mcp_url}} needs no key, serves synthetic data, keeps no account record
+and does not meter usage.
+
+## 9. Changes and contact
+The current version is published at {{site_url}}; material changes are announced before
+they take effect. Questions about this policy: {{contact_url}}.

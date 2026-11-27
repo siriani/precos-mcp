@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "{{registry_name}}",
+  "title": "{{title}}",
+  "description": "{{description_short}}",
+  "version": "0.1.0",
+  "websiteUrl": "{{site_url}}",
+  "repository": {
+    "url": "{{repo_url}}",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "{{mcp_url}}",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "API key sent as a Bearer token. Get one from {{site_url}}.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string",
+          "value": "Bearer {api_key}",
+          "variables": {
+            "api_key": {
+              "description": "API key (prefix pk_live_).",
+              "isRequired": true,
+              "isSecret": true,
+              "format": "string"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

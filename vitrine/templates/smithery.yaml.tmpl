@@ -1,0 +1,15 @@
+# Smithery: configuracao do servidor remoto {{mcp_url}}.
+# Gerado por scripts/vitrine/build_public.py. Nao editar a mao: edite o modelo ou mcp_server/brand.json.
+# Esquema de configuracao de memoria; conferir no smithery.ai antes de publicar.
+name: "{{title}}"
+description: "{{description_short}}"
+url: "{{mcp_url}}"
+configSchema:
+  type: object
+  required:
+    - apiKey
+  properties:
+    apiKey:
+      type: string
+      title: "API key"
+      description: "API key sent as Authorization: Bearer <key>. Get one from {{site_url}}."
